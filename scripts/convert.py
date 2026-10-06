@@ -72,7 +72,10 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     files = collect(args.inputs, out_dir)
     if not files:
-        sys.exit(f"no audio files found in: {', '.join(map(str, args.inputs))}")
+        sys.exit(
+            f"no audio files found in: {', '.join(map(str, args.inputs))}\n"
+            f"Put your recordings ({', '.join(sorted(e.lstrip('.') for e in AUDIO_EXTS))}) there first."
+        )
 
     stems: dict[str, Path] = {}
     for f in files:

@@ -6,6 +6,12 @@ so the numbers follow the public benchmark's method.
 
 ## Setup
 
+Prerequisites: `git` and [uv](https://docs.astral.sh/uv/getting-started/installation/).
+uv fetches Python 3.12 and every dependency itself; no ffmpeg or system packages
+are needed. Expect about 1.5 GB of downloads on first use (mostly CPU-only
+PyTorch for the speech detector, plus ~200 MB of noise recordings), kept in uv's
+cache and `noise/`. Tested on Linux; macOS should work but hasn't been tried.
+
 ```bash
 git clone --recurse-submodules <this repo> && cd <repo>
 cd benchmarks/runner && uv sync && cd ../..        # benchmark code (pinned submodule)
@@ -13,9 +19,12 @@ cp benchmarks/.env.example benchmarks/.env          # add provider API keys
 ```
 
 Recordings, noise clips and generated audio aren't in git. Put recordings in
-`data/` and run the workflow below.
+`data/` and run the workflow below. `results/` holds our committed runs; to
+reproduce them exactly you need the original recordings, shared separately.
+The noise and end-of-speech steps are deterministic, so the same recording
+gives byte-identical noisy files on any machine.
 
-## Folder layout (`~/benchmarks`)
+## Folder layout
 
 ```
 benchmarks/        coval benchmarks repo, as a git submodule (provides .env with API keys)

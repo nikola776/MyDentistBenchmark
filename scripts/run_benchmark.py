@@ -540,9 +540,6 @@ def main() -> None:
     configure_logging(args.log_level)
     entry = find_entry(args.provider, args.model)
     settings = Settings(_env_file=str(args.env_file))  # type: ignore[call-arg]
-    key_attr = f"{args.provider}_api_key"
-    if hasattr(settings, key_attr) and not getattr(settings, key_attr):
-        sys.exit(f"{key_attr.upper()} is not set in {rel(args.env_file)}")
 
     clips = discover(args.data_dir)
     if not clips:
@@ -575,6 +572,11 @@ def main() -> None:
               f"= {len(jobs)} streams, about {audio / 60 / args.concurrency:.0f} min of real-time streaming "
               f"plus per-stream connect/close time (~16 s each for ElevenLabs)")
         return
+
+    # Checked after --dry-run, so a dry run works before any key is set.
+    key_attr = f"{args.provider}_api_key"
+    if hasattr(settings, key_attr) and not getattr(settings, key_attr):
+        sys.exit(f"{key_attr.upper()} is not set in {rel(args.env_file)}")
 
     speech_ends: dict[str, float | None] = {}
     if not args.no_ttfs:
