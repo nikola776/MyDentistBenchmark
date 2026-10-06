@@ -62,14 +62,19 @@ different text needs its own `transcripts/<same name>.txt`, which takes priority
 | `--only PATTERN` | all | variants to run, repeatable: `--only clean --only 'cafeteria_*'` |
 | `--files PATTERN` | all | recordings to run, e.g. `--files Ian` |
 | `--default-reference` | `script.txt` | transcript for recordings without their own `<name>.txt` |
-| `--concurrency N` | 1 | parallel streams; above 1 is faster but can skew latency |
+| `--concurrency N` | 1 | parallel streams. Stay at least 1 below the provider's realtime limit (ElevenLabs free: 6, so use 5); over the limit, streams are queued or rejected |
 | `--no-ttfs` | off | skip VAD: no TTFS, and stream whole files untrimmed |
 | `--label NAME` | | added to the results folder name |
 | `--dry-run` | | list the streams and estimated time without calling the API |
+| `--rescore DIR` | | recompute text metrics and summaries of an existing results folder from its saved transcripts (e.g. after fixing a reference). No API calls |
 
-Streaming is real time: each stream takes as long as the recording. The default
-config (clean + 16 variants, 3 runs, one 94 s recording) takes about 80 minutes.
-Ctrl-C stops early and still writes a summary of the finished streams.
+Streaming is real time: each stream takes as long as the recording, plus about
+16 s while ElevenLabs closes the idle session after the final transcript. The
+default config (clean + 16 variants, 3 runs, one 94 s recording) takes about
+95 minutes, or about 20 minutes with `--concurrency 5`. Ctrl-C stops early and
+still writes a summary of the finished streams. Parallelism doesn't change cost:
+ElevenLabs bills per second of audio (about 1.3 credits/s on the free tier, so a
+full default run costs about 6,200 credits).
 
 ## Noise configuration (`noise.yaml`)
 
@@ -91,12 +96,34 @@ Steps can be chained, e.g. cafeteria noise followed by a phone line. The
 
 | File | Contents |
 |---|---|
-| `summary.md` | per-variant table: WER, TTFT, TTFS, audio→final, RTF |
-| `summary.csv` | the same with mean/median/min/max of every metric |
+| `summary.md` | per-variant accuracy and latency tables, with the change vs clean |
+| `summary.csv` | mean/median/stdev/min/max of every metric, plus the change vs clean |
 | `runs.csv` | one row per stream, written as each stream finishes |
 | `wer_errors.csv` | every word error: type, reference word, recognized word |
 | `transcripts/<variant>/` | what the provider returned, per run |
 | `meta.json`, `noise_manifest.json` | settings, repo commit, VAD offsets, exact noise parameters |
+
+## Metrics
+
+All are free: they come from the stream itself or from the saved transcript.
+
+| Metric | Column | Meaning |
+|---|---|---|
+| WER | `wer_pct` | the benchmark's official word error rate (+ `wer_sub/ins/del_pct` split) |
+| Lenient WER | `wer_lenient_pct` | WER ignoring number formatting and spelling variants (see below) |
+| CER | `cer_pct` | character error rate; partly wrong words count partly |
+| Numbers correct | `numbers_pct` | share of the reference's numbers (phone, NHS, dates, times, prices) found exactly in the transcript |
+| MER, WIL | `mer_pct`, `wil_pct` | alternative WER-style rates (jiwer definitions), for comparison with other tools |
+| TTFT | `ttft_s` | first audio sent → first partial transcript |
+| First partial plausible | `first_partial_ok` | first partial shares a word with the reference (1/0); see below |
+| TTFS | `ttfs_s` | end of speech → final transcript (the benchmark's headline latency) |
+| Audio→final, RTF | `audio_to_final_s`, `rtf` | first audio → final transcript; and that divided by audio length |
+| Connect | `connect_s` | opening the connection (handshake, auth, session start) until the first audio is sent |
+| Partial updates | `partial_updates` | interim transcripts received; more means the text updates more often |
+| Session | `session_s` | whole session including close; mostly ElevenLabs' idle close (~16 s), not a latency |
+
+The change vs clean compares each variant with the clean recording of the same
+file: means for accuracy, medians for latency.
 
 ## Method notes
 
@@ -114,6 +141,12 @@ Steps can be chained, e.g. cafeteria noise followed by a phone line. The
 - **WER and numbers**: the normalizer turns spoken digits ("oh seven nine") into
   `079`, but drops leading zeros from written ones (`079` becomes `79`) and splits
   hyphenated numbers. A provider that writes phone numbers as digits is penalized
-  even when every digit is right. Check `wer_errors.csv` before reading too much
-  into WER on number-heavy speech.
+  even when every digit is right. **Lenient WER** fixes this: digits split by
+  spaces or hyphens become one number, leading zeros drop, adjacent numbers join,
+  "all right" = "alright", and an "oh" that isn't part of a number stays a word
+  instead of becoming 0. **Numbers correct** applies the same rules, so a single
+  wrong digit in a phone number (which WER buries among formatting errors) shows up.
+- **First partial plausible**: ElevenLabs isn't told the language, so its first
+  interim result is sometimes a guess in another language ("Алло!" for English
+  speech). TTFT then times that guess, not real text. Read TTFT together with this.
 - **Noise attribution**: DEMAND noise clips are CC BY-SA 3.0 (see `noise/ATTRIBUTION.txt`).
