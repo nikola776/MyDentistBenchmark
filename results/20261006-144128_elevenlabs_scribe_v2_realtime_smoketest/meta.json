@@ -1,0 +1,27 @@
+{
+  "provider": "elevenlabs",
+  "model": "scribe_v2_realtime",
+  "runs": 1,
+  "concurrency": 1,
+  "variants": [
+    "clean",
+    "cafeteria_snr5"
+  ],
+  "files": [
+    "Ian.wav"
+  ],
+  "speech_end_offset_ms": {
+    "Ian.wav": 93988.0
+  },
+  "trimmed_after_speech_end": true,
+  "stt_timeout_s": 156,
+  "wer_norm_version": "2",
+  "repo_commit": "b497b821f4c2132ebf36eb4cea200dc605ad9596",
+  "command": "scripts/run_benchmark.py --runs 1 --only clean --only cafeteria_snr5 --label smoketest",
+  "python": "3.12.3",
+  "host": "alpha-pc-3638-lx",
+  "started_at": "2026-10-06T12:41:28+00:00",
+  "finished_at": "2026-10-06T12:45:08+00:00",
+  "wall_clock_s": 219.8,
+  "streams_completed": 2
+}

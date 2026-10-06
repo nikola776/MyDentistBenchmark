@@ -1,0 +1,46 @@
+# Degradation conditions for add_noise.py.
+#
+# Each condition is a list of steps applied in order. A parameter given as a
+# list (snr_db, rt60, drr_db) expands into one variant per value, named
+# <condition>_<param><value>, e.g. white_snr10 or reverb_rt0.6.
+#
+# Step types and parameters:
+#   synthetic   color: white | pink | brown
+#               snr_db: speech-to-noise ratio in dB
+#   background  noise: file name in noise_dir without extension (e.g. cafeteria),
+#                      or a glob (e.g. "cafe*") to pick one match at random
+#               snr_db: speech-to-noise ratio in dB
+#   phone       codec: mulaw | alaw | none   (G.711 telephone codec at 8 kHz)
+#               band_hz: [300, 3400]        (telephone band-pass)
+#   reverb      rt60: seconds for the reverb to decay by 60 dB
+#                     (0.3 small room, 0.6 living room, 1.2 hall)
+#               drr_db: direct-to-reverberant ratio; lower sounds farther away (default 3)
+#
+# SNR is measured against active speech (pauses excluded). Lower = noisier:
+# 20 dB mild, 10 dB noticeable, 5 dB hard, 0 dB noise as loud as the speech.
+#
+# Same seed + same config + same input => byte-identical output.
+
+seed: 1234
+input_dir: ../data/wav      # 16 kHz mono WAVs from convert.py
+output_dir: ../data/noisy   # one subfolder per variant
+noise_dir: ../noise         # background clips (fetch_noise.py, or your own wav/flac)
+
+conditions:
+  white:
+    - {type: synthetic, color: white, snr_db: [20, 10, 5, 0]}
+  cafeteria:
+    - {type: background, noise: cafeteria, snr_db: [20, 10, 5, 0]}
+  street:
+    - {type: background, noise: street, snr_db: [20, 10, 5, 0]}
+  phone:
+    - {type: phone, codec: mulaw}
+  reverb:
+    - {type: reverb, rt60: [0.3, 0.6, 1.2]}
+
+  # More examples; uncomment to use.
+  # pink:
+  #   - {type: synthetic, color: pink, snr_db: [20, 10, 5, 0]}
+  # phone_cafeteria:          # a phone call made from a busy cafeteria
+  #   - {type: background, noise: cafeteria, snr_db: 10}
+  #   - {type: phone, codec: mulaw}
