@@ -1,0 +1,35 @@
+{
+  "provider": "elevenlabs",
+  "model": "scribe_v2_realtime",
+  "runs": 1,
+  "concurrency": 5,
+  "variants": [
+    "clean",
+    "white_snr5",
+    "cafeteria_snr5",
+    "reverb_rt0.6"
+  ],
+  "files": [
+    "Richard_scenarios.wav",
+    "Richard_script.wav"
+  ],
+  "reference_files": {
+    "Richard_scenarios.wav": "transcripts/scenarios.txt",
+    "Richard_script.wav": "transcripts/script.txt"
+  },
+  "speech_end_offset_ms": {
+    "Richard_scenarios.wav": 134980.0,
+    "Richard_script.wav": 134884.0
+  },
+  "trimmed_after_speech_end": true,
+  "stt_timeout_s": 199,
+  "wer_norm_version": "2",
+  "repo_commit": "b497b821f4c2132ebf36eb4cea200dc605ad9596",
+  "command": "scripts/run_benchmark.py --files Richard_* --only clean --only white_snr5 --only cafeteria_snr5 --only reverb_rt0.6 --runs 1 --concurrency 5 --label richard-split",
+  "python": "3.12.3",
+  "host": "alpha-pc-3638-lx",
+  "started_at": "2026-10-07T11:13:25+00:00",
+  "finished_at": "2026-10-07T11:18:27+00:00",
+  "wall_clock_s": 301.9,
+  "streams_completed": 8
+}

@@ -139,18 +139,22 @@ def discover(data_dir: Path) -> list[Clip]:
 def resolve_references(
     sources: set[str], transcripts_dir: Path, default_reference: str
 ) -> tuple[dict[str, str], dict[str, str | None]]:
-    """Reference text per recording: transcripts/<name>.txt, else the shared default."""
+    """Reference text per recording: transcripts/<name>.txt; for a split part
+    <recording>_<part> (scripts/split.py) the shared transcripts/<part>.txt; else the default."""
     references: dict[str, str] = {}
     reference_files: dict[str, str | None] = {}
-    shared = transcripts_dir / default_reference
     for s in sorted(sources):
-        own = transcripts_dir / f"{Path(s).stem}.txt"
-        ref_path = own if own.exists() else shared if shared.exists() else None
+        stem = Path(s).stem
+        candidates = [transcripts_dir / f"{stem}.txt"]
+        if "_" in stem:
+            candidates.append(transcripts_dir / f"{stem.rsplit('_', 1)[1]}.txt")
+        candidates.append(transcripts_dir / default_reference)
+        ref_path = next((c for c in candidates if c.exists()), None)
         reference_files[s] = rel(ref_path) if ref_path else None
         if ref_path:
             references[s] = ref_path.read_text().strip()
         else:
-            print(f"warning: neither {rel(own)} nor {rel(shared)} exists; WER skipped for {s}")
+            print(f"warning: none of {', '.join(rel(c) for c in candidates)} exists; WER skipped for {s}")
     return references, reference_files
 
 

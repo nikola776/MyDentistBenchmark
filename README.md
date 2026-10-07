@@ -62,6 +62,19 @@ To add a recording, put it in `data/` and rerun steps 1, 3 and 4. Recordings of
 the shared script are scored against `transcripts/script.txt`. A recording with
 different text needs its own `transcripts/<same name>.txt`, which takes priority.
 
+If one recording holds several texts (e.g. the script, then the scenarios), split
+it first. Audio between parts, like a spoken heading, is dropped, and each cut
+moves to the nearest pause:
+
+```bash
+uv run scripts/split.py data/Richard.m4a script=0-2:17 scenarios=2:21-end
+```
+
+This writes `data/Richard_script.wav` and `data/Richard_scenarios.wav` and moves
+the original to `data/unsplit/`. A part `<recording>_<part>` is scored against
+`transcripts/<recording>_<part>.txt` if it exists, else the shared
+`transcripts/<part>.txt` (here `script.txt` and `scenarios.txt`).
+
 ## Benchmark options
 
 | Option | Default | |
@@ -155,6 +168,10 @@ file: means for accuracy, medians for latency.
   "all right" = "alright", and an "oh" that isn't part of a number stays a word
   instead of becoming 0. **Numbers correct** applies the same rules, so a single
   wrong digit in a phone number (which WER buries among formatting errors) shows up.
+  Numbers spoken back to back merge into one, because the benchmark's normalizer
+  merges them in the reference ("ninety. Oh seven nine..." becomes `9007933415028`).
+  A small slip in either one then counts the whole group as missed; check
+  `wer_errors.csv` for what was actually heard.
 - **First partial plausible**: ElevenLabs isn't told the language, so its first
   interim result is sometimes a guess in another language ("Алло!" for English
   speech). TTFT then times that guess, not real text. Read TTFT together with this.
