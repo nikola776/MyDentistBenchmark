@@ -1,0 +1,46 @@
+{
+  "provider": "elevenlabs",
+  "model": "scribe_v2_realtime",
+  "runs": 1,
+  "concurrency": 5,
+  "variants": [
+    "white_snr0",
+    "white_snr-5",
+    "cafeteria_snr0",
+    "cafeteria_snr-5",
+    "street_snr0",
+    "street_snr-5",
+    "reverb_rt1.2",
+    "phone_cafeteria_snr5",
+    "phone_street_snr5",
+    "mobile_loss5",
+    "mobile_loss15"
+  ],
+  "files": [
+    "Ian.wav",
+    "Richard_scenarios.wav",
+    "Richard_script.wav"
+  ],
+  "reference_files": {
+    "Ian.wav": "transcripts/script.txt",
+    "Richard_scenarios.wav": "transcripts/scenarios.txt",
+    "Richard_script.wav": "transcripts/script.txt"
+  },
+  "speech_end_offset_ms": {
+    "Ian.wav": 93988.0,
+    "Richard_script.wav": 134884.0,
+    "Richard_scenarios.wav": 134980.0
+  },
+  "trimmed_after_speech_end": true,
+  "stt_timeout_s": 199,
+  "wer_norm_version": "2",
+  "repo_commit": "b497b821f4c2132ebf36eb4cea200dc605ad9596",
+  "command": "scripts/run_benchmark.py --only white_snr0 --only white_snr-5 --only cafeteria_snr0 --only cafeteria_snr-5 --only street_snr0 --only street_snr-5 --only reverb_rt1.2 --only phone_cafeteria_snr5 --only phone_street_snr5 --only mobile_loss5 --only mobile_loss15 --runs 1 --concurrency 5 --label extreme",
+  "python": "3.12.3",
+  "host": "alpha-pc-3638-lx",
+  "started_at": "2026-10-09T10:13:14+00:00",
+  "finished_at": "2026-10-09T10:29:27+00:00",
+  "wall_clock_s": 973.5,
+  "streams_completed": 33,
+  "rescored_at": "2026-10-09T10:34:29+00:00"
+}

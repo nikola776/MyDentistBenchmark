@@ -1,0 +1,558 @@
+{
+  "variants": {
+    "white_snr20": {
+      "steps": [
+        {
+          "type": "synthetic",
+          "color": "white",
+          "snr_db": 20
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav"
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav"
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav"
+        }
+      }
+    },
+    "white_snr10": {
+      "steps": [
+        {
+          "type": "synthetic",
+          "color": "white",
+          "snr_db": 10
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav"
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav"
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav"
+        }
+      }
+    },
+    "white_snr5": {
+      "steps": [
+        {
+          "type": "synthetic",
+          "color": "white",
+          "snr_db": 5
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav"
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav"
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav"
+        }
+      }
+    },
+    "white_snr0": {
+      "steps": [
+        {
+          "type": "synthetic",
+          "color": "white",
+          "snr_db": 0
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav"
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav"
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav"
+        }
+      }
+    },
+    "white_snr-5": {
+      "steps": [
+        {
+          "type": "synthetic",
+          "color": "white",
+          "snr_db": -5
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav"
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav"
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav"
+        }
+      }
+    },
+    "cafeteria_snr20": {
+      "steps": [
+        {
+          "type": "background",
+          "noise": "cafeteria",
+          "snr_db": 20
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 24.789
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 27.077
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 19.633
+        }
+      }
+    },
+    "cafeteria_snr10": {
+      "steps": [
+        {
+          "type": "background",
+          "noise": "cafeteria",
+          "snr_db": 10
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 123.034
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 150.713
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 152.772
+        }
+      }
+    },
+    "cafeteria_snr5": {
+      "steps": [
+        {
+          "type": "background",
+          "noise": "cafeteria",
+          "snr_db": 5
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 116.989
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 80.996
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 160.254
+        }
+      }
+    },
+    "cafeteria_snr0": {
+      "steps": [
+        {
+          "type": "background",
+          "noise": "cafeteria",
+          "snr_db": 0
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 102.13
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 160.832
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 37.61
+        }
+      }
+    },
+    "cafeteria_snr-5": {
+      "steps": [
+        {
+          "type": "background",
+          "noise": "cafeteria",
+          "snr_db": -5
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 185.763,
+          "gain_db": -3.74
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 105.891
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 126.654
+        }
+      }
+    },
+    "street_snr20": {
+      "steps": [
+        {
+          "type": "background",
+          "noise": "street",
+          "snr_db": 20
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 105.042
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 128.564
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 24.896
+        }
+      }
+    },
+    "street_snr10": {
+      "steps": [
+        {
+          "type": "background",
+          "noise": "street",
+          "snr_db": 10
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 158.007
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 54.536
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 5.07
+        }
+      }
+    },
+    "street_snr5": {
+      "steps": [
+        {
+          "type": "background",
+          "noise": "street",
+          "snr_db": 5
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 87.081
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 25.571
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 45.976
+        }
+      }
+    },
+    "street_snr0": {
+      "steps": [
+        {
+          "type": "background",
+          "noise": "street",
+          "snr_db": 0
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 19.772
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 8.018
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 47.653
+        }
+      }
+    },
+    "street_snr-5": {
+      "steps": [
+        {
+          "type": "background",
+          "noise": "street",
+          "snr_db": -5
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 13.926
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 94.827
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 62.71
+        }
+      }
+    },
+    "phone": {
+      "steps": [
+        {
+          "type": "phone",
+          "codec": "mulaw"
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav"
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav"
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav"
+        }
+      }
+    },
+    "reverb_rt0.3": {
+      "steps": [
+        {
+          "type": "reverb",
+          "rt60": 0.3
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav"
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav"
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav"
+        }
+      }
+    },
+    "reverb_rt0.6": {
+      "steps": [
+        {
+          "type": "reverb",
+          "rt60": 0.6
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav"
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav"
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav"
+        }
+      }
+    },
+    "reverb_rt1.2": {
+      "steps": [
+        {
+          "type": "reverb",
+          "rt60": 1.2
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav"
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav"
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav"
+        }
+      }
+    },
+    "phone_cafeteria_snr5": {
+      "steps": [
+        {
+          "type": "background",
+          "noise": "cafeteria",
+          "snr_db": 5
+        },
+        {
+          "type": "phone",
+          "codec": "mulaw"
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 67.891
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 52.833
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "noise_file": "noise/cafeteria.wav",
+          "noise_offset_s": 63.816
+        }
+      }
+    },
+    "phone_street_snr5": {
+      "steps": [
+        {
+          "type": "background",
+          "noise": "street",
+          "snr_db": 5
+        },
+        {
+          "type": "phone",
+          "codec": "mulaw"
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 19.864
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 43.617
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "noise_file": "noise/street.wav",
+          "noise_offset_s": 128.622
+        }
+      }
+    },
+    "mobile_loss5": {
+      "steps": [
+        {
+          "type": "phone",
+          "codec": "mulaw"
+        },
+        {
+          "type": "dropout",
+          "loss_pct": 5
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "lost_pct": 4.73
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "lost_pct": 6.48
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "lost_pct": 4.22
+        }
+      }
+    },
+    "mobile_loss15": {
+      "steps": [
+        {
+          "type": "phone",
+          "codec": "mulaw"
+        },
+        {
+          "type": "dropout",
+          "loss_pct": 15
+        }
+      ],
+      "files": {
+        "Ian.wav": {
+          "source": "data/wav/Ian.wav",
+          "lost_pct": 14.92
+        },
+        "Richard_scenarios.wav": {
+          "source": "data/wav/Richard_scenarios.wav",
+          "lost_pct": 14.88
+        },
+        "Richard_script.wav": {
+          "source": "data/wav/Richard_script.wav",
+          "lost_pct": 15.64
+        }
+      }
+    }
+  },
+  "generated_at": "2026-10-09T10:09:41+00:00",
+  "config": "scripts/noise.yaml",
+  "seed": 1234,
+  "sample_rate": 16000,
+  "input_dir": "data/wav"
+}

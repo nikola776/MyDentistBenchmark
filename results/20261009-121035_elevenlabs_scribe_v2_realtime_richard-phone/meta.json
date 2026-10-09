@@ -1,0 +1,33 @@
+{
+  "provider": "elevenlabs",
+  "model": "scribe_v2_realtime",
+  "runs": 1,
+  "concurrency": 5,
+  "variants": [
+    "phone"
+  ],
+  "files": [
+    "Richard_scenarios.wav",
+    "Richard_script.wav"
+  ],
+  "reference_files": {
+    "Richard_scenarios.wav": "transcripts/scenarios.txt",
+    "Richard_script.wav": "transcripts/script.txt"
+  },
+  "speech_end_offset_ms": {
+    "Richard_scenarios.wav": 134980.0,
+    "Richard_script.wav": 134884.0
+  },
+  "trimmed_after_speech_end": true,
+  "stt_timeout_s": 199,
+  "wer_norm_version": "2",
+  "repo_commit": "b497b821f4c2132ebf36eb4cea200dc605ad9596",
+  "command": "scripts/run_benchmark.py --files Richard_* --only phone --runs 1 --concurrency 5 --label richard-phone",
+  "python": "3.12.3",
+  "host": "alpha-pc-3638-lx",
+  "started_at": "2026-10-09T10:10:35+00:00",
+  "finished_at": "2026-10-09T10:13:06+00:00",
+  "wall_clock_s": 151.0,
+  "streams_completed": 2,
+  "rescored_at": "2026-10-09T10:34:26+00:00"
+}

@@ -42,18 +42,20 @@ PEAK_LIMIT = 0.99
 NOISE_EXTS = {".wav", ".flac", ".ogg"}
 
 # Parameters that expand when given as a list, and their short name in variant names.
-EXPANDABLE = {"snr_db": "snr", "rt60": "rt", "drr_db": "drr"}
+EXPANDABLE = {"snr_db": "snr", "rt60": "rt", "drr_db": "drr", "loss_pct": "loss"}
 STEP_KEYS = {
     "synthetic": {"color", "snr_db"},
     "background": {"noise", "snr_db"},
     "phone": {"codec", "band_hz"},
     "reverb": {"rt60", "drr_db"},
+    "dropout": {"loss_pct", "burst_ms"},
 }
 REQUIRED_KEYS = {
     "synthetic": {"color", "snr_db"},
     "background": {"noise", "snr_db"},
     "phone": set(),
     "reverb": {"rt60"},
+    "dropout": {"loss_pct"},
 }
 
 
@@ -249,6 +251,29 @@ def reverb(x: np.ndarray, rt60: float, drr_db: float, rng: np.random.Generator) 
     return y * np.sqrt(active_power(x) / max(active_power(y), 1e-20))
 
 
+def dropout(x: np.ndarray, loss_pct: float, burst_ms: float, rng: np.random.Generator) -> tuple[np.ndarray, float]:
+    """Bursty audio loss like a weak mobile connection. 20 ms frames (one network packet)
+    are lost in runs averaging burst_ms, using a two-state Gilbert model, and lost audio
+    is silent. 5 ms fades at each gap edge avoid clicks; speech timing is unchanged.
+    Returns the audio and the share actually lost, in percent."""
+    frame = int(0.02 * SR)
+    n = -(-len(x) // frame)
+    loss = min(max(loss_pct / 100, 0.0), 0.95)
+    if loss == 0 or n == 0:
+        return x, 0.0
+    p_recover = 1 / max(burst_ms / 20, 1.0)  # lost -> received
+    p_lose = min(1.0, loss * p_recover / (1 - loss))  # received -> lost; averages out to `loss`
+    lost = np.zeros(n, dtype=bool)
+    bad = bool(rng.random() < loss)
+    for i in range(n):
+        lost[i] = bad
+        bad = bool(rng.random() >= p_recover) if bad else bool(rng.random() < p_lose)
+    gain = np.repeat(np.where(lost, 0.0, 1.0), frame)[: len(x)]
+    fade = int(0.005 * SR)
+    gain = np.convolve(gain, np.ones(fade) / fade, mode="same")
+    return x * gain, float(lost.mean() * 100)
+
+
 def apply_steps(
     x: np.ndarray,
     steps: list[dict[str, Any]],
@@ -271,6 +296,9 @@ def apply_steps(
             y = phone(y, step.get("codec", "mulaw"), list(step.get("band_hz", [300, 3400])))
         elif kind == "reverb":
             y = reverb(y, float(step["rt60"]), float(step.get("drr_db", 3.0)), rng)
+        elif kind == "dropout":
+            y, lost = dropout(y, float(step["loss_pct"]), float(step.get("burst_ms", 60)), rng)
+            info["lost_pct"] = round(lost, 2)
     peak = float(np.max(np.abs(y))) if len(y) else 0.0
     if peak > PEAK_LIMIT:
         y = y * (PEAK_LIMIT / peak)

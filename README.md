@@ -110,6 +110,7 @@ expands into one variant per value: `snr_db: [20, 10, 5, 0]` gives
 | `background` | `noise`: file name in `noise/` (or a glob); `snr_db` |
 | `phone` | `codec`: mulaw / alaw / none (G.711, 8 kHz); `band_hz`: [300, 3400] |
 | `reverb` | `rt60`: decay time in s (0.3 small room, 1.2 hall); `drr_db`: lower = farther (default 3) |
+| `dropout` | `loss_pct`: share of audio lost in bursts, like a weak mobile signal (5 noticeable, 15 severe); `burst_ms`: average gap (default 60) |
 
 Steps can be chained, e.g. cafeteria noise followed by a phone line. The
 `seed` makes output reproducible: same config and input give byte-identical files.
@@ -164,14 +165,15 @@ file: means for accuracy, medians for latency.
   `079`, but drops leading zeros from written ones (`079` becomes `79`) and splits
   hyphenated numbers. A provider that writes phone numbers as digits is penalized
   even when every digit is right. **Lenient WER** fixes this: digits split by
-  spaces or hyphens become one number, leading zeros drop, adjacent numbers join,
-  "all right" = "alright", and an "oh" that isn't part of a number stays a word
-  instead of becoming 0. **Numbers correct** applies the same rules, so a single
+  spaces or hyphens become one number, leading zeros drop, adjacent numbers in the
+  same sentence join, "all right" = "alright", and an "oh" that isn't part of a
+  number stays a word instead of becoming 0. Dates and times are matched by meaning:
+  `02/02/1964` = "second of the second, 1964", `9th` = `9`, `3:00` = "three",
+  `2:30` = "half two", `9:15` = "quarter past nine", `3:45` = "quarter to four". **Numbers correct** applies the same rules, so a single
   wrong digit in a phone number (which WER buries among formatting errors) shows up.
-  Numbers spoken back to back merge into one, because the benchmark's normalizer
-  merges them in the reference ("ninety. Oh seven nine..." becomes `9007933415028`).
-  A small slip in either one then counts the whole group as missed; check
-  `wer_errors.csv` for what was actually heard.
+  Numbers spoken back to back in one sentence merge into one, as the benchmark's
+  normalizer merges them in the reference; a slip in either then counts the whole
+  group as missed. Check `wer_errors.csv` for what was actually heard.
 - **First partial plausible**: ElevenLabs isn't told the language, so its first
   interim result is sometimes a guess in another language ("Алло!" for English
   speech). TTFT then times that guess, not real text. Read TTFT together with this.

@@ -1,6 +1,6 @@
 # elevenlabs/scribe_v2_realtime: clean vs noisy
 
-- Started: 2026-10-06T12:41:28+00:00, finished: 2026-10-06T12:45:08+00:00, rescored: 2026-10-06T13:54:31+00:00
+- Started: 2026-10-06T12:41:28+00:00, finished: 2026-10-06T12:45:08+00:00, rescored: 2026-10-09T10:34:21+00:00
 - Runs per clip: 1, concurrency: 1, files: Ian.wav
 - Benchmark repo commit: b497b821f4c2132ebf36eb4cea200dc605ad9596, WER normalization v2
 - Values in brackets are the change vs clean.
@@ -9,15 +9,15 @@
 
 | Variant | OK | WER % | Lenient WER % | CER % | Numbers correct % | Sub / Ins / Del % | MER % | WIL % |
 |---|---|---|---|---|---|---|---|---|
-| clean | 1/1 | 9.55 | 2.51 | 2.70 | 100.0 | 3.5 / 5.5 / 0.5 | 9.05 | 12.29 |
-| cafeteria_snr5 | 1/1 | 11.06 (+1.51) | 4.52 (+2.01) | 3.78 (+1.08) | 94.1 (-5.9) | 4.5 / 6.0 / 0.5 | 10.43 | 14.52 |
+| clean | 1/1 | 9.55 | 2.58 | 2.70 | 100.0 | 3.5 / 5.5 / 0.5 | 9.05 | 12.29 |
+| cafeteria_snr5 | 1/1 | 11.06 (+1.51) | 4.64 (+2.06) | 3.78 (+1.08) | 94.1 (-5.9) | 4.5 / 6.0 / 0.5 | 10.43 | 14.52 |
 
 ## Latency (median over streams)
 
-| Variant | TTFT s | TTFT range | TTFS s | TTFS range | Audio→final s | RTF | Connect s | Partial updates |
-|---|---|---|---|---|---|---|---|---|
-| clean | 2.21 | 2.21-2.21 | 0.19 | 0.19-0.19 | 94.17 | 1.002 | - | - |
-| cafeteria_snr5 | 2.16 (-0.06) | 2.16-2.16 | 0.26 (+0.07) | 0.26-0.26 | 94.25 | 1.003 | - | - |
+| Variant | TTFT s | TTFT range | First partial plausible % | TTFS s | TTFS range | Audio→final s | RTF | Connect s | Partial updates |
+|---|---|---|---|---|---|---|---|---|---|
+| clean | 2.21 | 2.21-2.21 | - | 0.19 | 0.19-0.19 | 94.17 | 1.002 | - | - |
+| cafeteria_snr5 | 2.16 (-0.06) | 2.16-2.16 | - | 0.26 (+0.07) | 0.26-0.26 | 94.25 | 1.003 | - | - |
 
 **Accuracy** (vs the reference transcript; lower is better except Numbers):
 - **WER**: the benchmark's official word error rate.
@@ -28,6 +28,7 @@
 
 **Latency**:
 - **TTFT**: first audio sent → first partial transcript.
+- **First partial plausible**: share of streams whose first partial shares a word with the reference. Below 100% means TTFT sometimes timed a wrong-language guess (e.g. "Алло!"), not real text.
 - **TTFS**: end of speech (Silero VAD on the clean file) → final transcript. Audio after end of speech is trimmed before streaming, as in the benchmark.
 - **Audio→final**: first audio sent → final transcript. **RTF**: audio→final / audio length.
 - **Connect**: opening the connection (handshake, auth) until the first audio is sent.

@@ -31,5 +31,6 @@
   "started_at": "2026-10-07T11:13:25+00:00",
   "finished_at": "2026-10-07T11:18:27+00:00",
   "wall_clock_s": 301.9,
-  "streams_completed": 8
+  "streams_completed": 8,
+  "rescored_at": "2026-10-09T10:34:25+00:00"
 }

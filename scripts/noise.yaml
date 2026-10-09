@@ -15,9 +15,12 @@
 #   reverb      rt60: seconds for the reverb to decay by 60 dB
 #                     (0.3 small room, 0.6 living room, 1.2 hall)
 #               drr_db: direct-to-reverberant ratio; lower sounds farther away (default 3)
+#   dropout     loss_pct: share of audio lost, like a weak mobile signal (5 noticeable, 15 severe)
+#               burst_ms: average length of each gap (default 60; audio is lost in 20 ms packets)
 #
 # SNR is measured against active speech (pauses excluded). Lower = noisier:
-# 20 dB mild, 10 dB noticeable, 5 dB hard, 0 dB noise as loud as the speech.
+# 20 dB mild, 10 dB noticeable, 5 dB hard, 0 dB noise as loud as the speech,
+# -5 dB noise louder than the speech.
 #
 # Same seed + same config + same input => byte-identical output.
 
@@ -28,19 +31,25 @@ noise_dir: ../noise         # background clips (fetch_noise.py, or your own wav/
 
 conditions:
   white:
-    - {type: synthetic, color: white, snr_db: [20, 10, 5, 0]}
+    - {type: synthetic, color: white, snr_db: [20, 10, 5, 0, -5]}
   cafeteria:
-    - {type: background, noise: cafeteria, snr_db: [20, 10, 5, 0]}
+    - {type: background, noise: cafeteria, snr_db: [20, 10, 5, 0, -5]}
   street:
-    - {type: background, noise: street, snr_db: [20, 10, 5, 0]}
+    - {type: background, noise: street, snr_db: [20, 10, 5, 0, -5]}
   phone:
     - {type: phone, codec: mulaw}
   reverb:
     - {type: reverb, rt60: [0.3, 0.6, 1.2]}
+  phone_cafeteria:            # a phone call made from a busy cafeteria
+    - {type: background, noise: cafeteria, snr_db: [5]}
+    - {type: phone, codec: mulaw}
+  phone_street:               # a phone call made from a busy street
+    - {type: background, noise: street, snr_db: [5]}
+    - {type: phone, codec: mulaw}
+  mobile:                     # a phone call over a weak mobile signal
+    - {type: phone, codec: mulaw}
+    - {type: dropout, loss_pct: [5, 15]}
 
   # More examples; uncomment to use.
   # pink:
   #   - {type: synthetic, color: pink, snr_db: [20, 10, 5, 0]}
-  # phone_cafeteria:          # a phone call made from a busy cafeteria
-  #   - {type: background, noise: cafeteria, snr_db: 10}
-  #   - {type: phone, codec: mulaw}
